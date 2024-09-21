@@ -1,8 +1,9 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
-  
+
   "rules": {
-    "no-unused-vars": "off", // Disables globally
-    "@typescript-eslint/no-explicit-any": "off" 
+    "@typescript-eslint/no-unused-vars": "off", // Disable unused-vars globally
+    "@typescript-eslint/no-explicit-any": "off" // Disable no-explicit-any globally
   }
+  
 }

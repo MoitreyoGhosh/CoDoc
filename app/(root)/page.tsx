@@ -2,6 +2,7 @@ import AddDocumentBtn from "@/components/AddDocumentBtn";
 import { DeleteModal } from "@/components/DeleteModal";
 import Header from "@/components/Header";
 import Notifications from "@/components/Notifications";
+import { Button } from "@/components/ui/button";
 import { getDocuments } from "@/lib/actions/room.actions";
 import { dateConverter } from "@/lib/utils";
 import { SignedIn, UserButton } from "@clerk/nextjs";
@@ -42,7 +43,7 @@ const Home = async () => {
               <li key={id} className="document-list-item">
                 <Link
                   href={`/documents/${id}`}
-                  className="flex fleex-1 items-center gap-4"
+                  className="flex flex-1 items-center gap-4"
                 >
                   <div className="hidden rounded-md bg-dark-500 p-2 sm:block">
                     <Image
@@ -55,7 +56,7 @@ const Home = async () => {
                   <div className="space-y-1">
                     <p className="line-clamp-1 text-lg">{metadata.title}</p>
                     <p className="text-sm font-light text-blue-100">
-                      Created about {dateConverter(createdAt)}{" "}
+                      Created about {dateConverter(createdAt)}
                     </p>
                   </div>
                 </Link>
