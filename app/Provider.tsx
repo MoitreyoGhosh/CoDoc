@@ -1,22 +1,26 @@
+"use client"; // Make sure this is a Client Component
+
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
 import Loader from "@/components/Loader";
-import { ClientSideSuspense, LiveblocksProvider } from "@liveblocks/react/suspense";
+import {
+  ClientSideSuspense,
+  LiveblocksProvider,
+} from "@liveblocks/react/suspense";
 import { getClerkUsers, getDocumentUsers } from "@/lib/actions/user.actions";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-  const { user: clerkUser, isLoaded } = useUser();
-  const router = useRouter();
+  const { user: clerkUser, isLoaded, isSignedIn } = useUser();
 
   // Check if the user data is still loading
   if (!isLoaded) {
-    return <Loader />; // Show a loader while Clerk is determining user status
+    return <Loader />;
   }
 
   // If no user is logged in, redirect to the sign-in page
-  if (!clerkUser) {
-    router.push('/sign-in');
-    return null; // Prevent rendering the component while redirecting
+  if (!isSignedIn) {
+    redirect("/sign-in");
+    return null; // Important: Prevent rendering while redirecting
   }
 
   // Safely access the email address after user is confirmed
@@ -42,9 +46,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         return roomUsers;
       }}
     >
-      <ClientSideSuspense fallback={<Loader />}>
-        {children}
-      </ClientSideSuspense>
+      <ClientSideSuspense fallback={<Loader />}>{children}</ClientSideSuspense>
     </LiveblocksProvider>
   );
 };
