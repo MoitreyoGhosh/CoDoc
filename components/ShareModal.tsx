@@ -75,7 +75,14 @@ const ShareModal = ({
               onChange={(e) => setEmail(e.target.value)}
               className="share-input"
             />
-            <UserTypeSelector userType={userType} setUserType={setUserType} />
+            {(currentUserType === "creator" ||
+              currentUserType === "editor") && (
+              <UserTypeSelector
+                userType={userType}
+                setUserType={setUserType}
+                onClickHandler={(value) => setUserType(value as UserType)}
+              />
+            )}
           </div>
           <Button
             type="submit"

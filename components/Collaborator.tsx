@@ -17,6 +17,9 @@ const Collaborator = ({
   const [userType, setuserType] = useState(collaborator.userType || "viewer");
   const [loading, setLoading] = useState(false);
 
+  const isOwner = user.id === creatorId;
+  const isCurrentUserProfile = user.id === collaborator.id;
+
   const shareDocumentHandler = async (type: string) => {
     setLoading(true);
     await updateDocumentAccess({
@@ -55,13 +58,13 @@ const Collaborator = ({
           </p>
         </div>
       </div>
-      {creatorId === collaborator.id ? (
+      {isCurrentUserProfile && isOwner ? (
         <p className="text-sm text-blue-100">Owner</p>
-      ) : (
-        <div className="flex items-center">
+      ) : isOwner ? (
+        <div className="flex items-center gap-2">
           <UserTypeSelector
             userType={userType as UserType}
-            setUserType={setuserType || "viewer"}
+            setUserType={setuserType}
             onClickHandler={shareDocumentHandler}
           />
           <Button
@@ -71,6 +74,12 @@ const Collaborator = ({
             Remove
           </Button>
         </div>
+      ) : collaborator.id === creatorId ? (
+        <p className="text-sm text-blue-100">Owner</p>
+      ) : (
+        <span className="text-sm text-blue-100">
+          {userType.charAt(0).toUpperCase() + userType.slice(1)}
+        </span>
       )}
     </li>
   );
